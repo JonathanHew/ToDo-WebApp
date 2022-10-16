@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 //we use pool to make PostgreSQL queries
 const pool = require("./db");
+const { CommandCompleteMessage } = require("pg-protocol/dist/messages");
+const { query } = require("express");
 
 //middleware
 app.use(cors());
@@ -40,6 +42,18 @@ app.get("/todos", async (req, res) => {
 
 //get a specific todo
 
+app.get("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [
+      id,
+    ]);
+
+    res.json(todo.rows[0]);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 //update a todo
 
 //delete a todo
