@@ -19,7 +19,7 @@ app.post("/todos", async (req, res) => {
       "INSERT INTO todo (description) VALUES ($1) RETURNING * ",
       [description]
     );
-    
+
     //newTodo.rows[0] returns only the necessary data, "todo_id" and "description"
     res.json(newTodo.rows[0]);
   } catch (err) {
@@ -29,7 +29,16 @@ app.post("/todos", async (req, res) => {
 
 //get all todos
 
-//get a todo
+app.get("/todos", async (req, res) => {
+  try {
+    const allTodos = await pool.query("SELECT * FROM todo");
+    res.json(allTodos.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//get a specific todo
 
 //update a todo
 
