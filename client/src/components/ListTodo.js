@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import EditTodo from "./EditTodo";
 
 const ListTodos = () => {
   const [todos, setTodos] = useState([]);
@@ -19,15 +20,12 @@ const ListTodos = () => {
 
   const deleteTodo = async (id) => {
     try {
-      const deleteTodo = await fetch(
-        `http://localhost:5001/todos/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-    
+      const deleteTodo = await fetch(`http://localhost:5001/todos/${id}`, {
+        method: "DELETE",
+      });
+
       //use a filter to return all todos exceot the one which has the id passed into the delete function
-      setTodos(todos.filter(todo => todo.todo_id != id));
+      setTodos(todos.filter((todo) => todo.todo_id != id));
     } catch (err) {
       console.error(err.message);
     }
@@ -59,7 +57,9 @@ const ListTodos = () => {
             //key gives the each row its id from the DB
             <tr key={todo.todo_id}>
               <td>{todo.description}</td>
-              <td>Edit</td>
+              <td>
+                <EditTodo todo={todo}></EditTodo>
+              </td>
               <td>
                 <button
                   className="btn btn-danger"
