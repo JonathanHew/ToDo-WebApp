@@ -13,7 +13,7 @@ const InputTodo = () => {
         body: JSON.stringify(body),
       });
 
-      console.log(response);
+      //resets the screem removing input 
       window.location = "/";
     } catch (err) {
       console.error(err.message);
